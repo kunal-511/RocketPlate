@@ -1,0 +1,29 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+* {
+  margin: 0;
+  padding: 0;
+}
+body,
+html {
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+.carousel-caption {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-transform: uppercase;
+  padding: 5rem;
+  font-size: 4xl;
+  color: red;
+  width: 50vw;
+  max-width: 100%;
+  display: flex;
+}
+.carousel-img {
+  max-height: 1000px;
+}
