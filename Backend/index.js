@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import routes from "./Routes/CreateUser.js";
+import cors from "cors";
 
 const app = express();
 const port = 3000;
@@ -25,13 +26,23 @@ const mongoDB = async () => {
 };
 
 mongoDB();
+// Use cors middleware for handling CORS headers
+app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+//   res.header(
+//     "Acess-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Contetnt-Type,Accept"
+//   );
+//   next();
+// });
 app.use(express.json());
 
 app.use("/api", routes);
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
 
 app.listen(port, () => {
   console.log(`App is running on port ${port}`);

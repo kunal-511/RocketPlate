@@ -15,22 +15,31 @@ import { useState } from 'react';
 
 const SignUp = () => {
 
-    const [credentials, setCredentials] = useState({ name: "", email: "", password: "", geolocation: "" })
+    const [credentials, setCredentials] = useState({ name: "", email: "", password: "", geoLocation: "" })
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = fetch("http://localhost:3000/api/createuser", {
+        const response = await fetch("http://localhost:3000/api/createuser", {
             method: 'POST',
-            header: {
+            headers: {
                 'Content-Type': "application/json"
             },
 
-            body: JSON.stringfy({ name: credentials.name, email: credentials.email, password: credentials.password, geolocation: credentials.geolocation })
+            body: JSON.stringify({ name: credentials.name, email: credentials.email, password: credentials.password, location: credentials.geoLocation })
         })
+        const json = await response.json()
+        console.log(json)
+
+        if (!json.success) {
+            alert("Enter valid credentials")
+        }
+
         const data = new FormData(event.currentTarget);
         console.log({
             email: data.get('email'),
             password: data.get('password'),
+            name: data.get('name'),
+            address: data.get('address')
         });
 
     };
@@ -101,7 +110,7 @@ const SignUp = () => {
                                 <TextField
                                     name="geoLocation"
                                     required
-                                    value={credentials.geolocation}
+                                    value={credentials.geoLocation}
                                     fullWidth
                                     id="Address"
                                     label="Address"
