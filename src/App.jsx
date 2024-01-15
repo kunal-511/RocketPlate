@@ -2,6 +2,7 @@
 import Home from "./Screens/Home"
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from "./Screens/Login";
+import SignUp from "./Screens/SignUp";
 
 function App() {
 
@@ -11,7 +12,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/SignIn" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/createuser" element={<SignUp />} />
 
         </Routes>
       </Router>

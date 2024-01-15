@@ -14,7 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 // import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from "react-router-dom"
 
-const pages = ['Search', 'Offers', 'Help', 'SignIn'];
+const pages = ['Search', 'Offers', 'Help', 'LogIn', 'SignUp'];
+const endPoints = ['search', 'offers', 'help', 'login', 'createuser'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Navbar = () => {
@@ -107,7 +108,6 @@ const Navbar = () => {
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
-
                             textDecoration: 'none',
                         }}
                     >
@@ -118,17 +118,18 @@ const Navbar = () => {
 
                     </Box>
                     <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Link key={page} to={`/${page}`} style={{ textDecoration: 'none' }}>
+                        {endPoints.map((page, index) => (
+                            <Link key={page} to={`/${endPoints[index]}`} style={{ textDecoration: 'none' }}>
                                 <Button
                                     onClick={handleCloseNavMenu}
                                     sx={{ my: 2, color: 'black', display: 'block' }}
                                 >
-                                    {page}
+                                    {pages[index]}
                                 </Button>
                             </Link>
                         ))}
                     </Box>
+
 
 
                     <Box sx={{ flexGrow: 0 }}>
