@@ -29,14 +29,14 @@ mongoDB();
 // Use cors middleware for handling CORS headers
 app.use(cors());
 
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
-//   res.header(
-//     "Acess-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Contetnt-Type,Accept"
-//   );
-//   next();
-// });
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header(
+    "Acess-Control-Allow-Headers",
+    "Origin, X-Requested-With, Contetnt-Type,Accept"
+  );
+  next();
+});
 app.use(express.json());
 
 app.use("/api", routes);

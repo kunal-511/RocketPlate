@@ -28,19 +28,19 @@ const SignUp = () => {
             body: JSON.stringify({ name: credentials.name, email: credentials.email, password: credentials.password, location: credentials.geoLocation })
         })
         const json = await response.json()
-        console.log(json)
+        console.log(json);
 
         if (!json.success) {
             alert("Enter valid credentials")
         }
 
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-            name: data.get('name'),
-            address: data.get('address')
-        });
+        // const data = new FormData(event.currentTarget);
+        // console.log({
+        //     email: data.get('email'),
+        //     password: data.get('password'),
+        //     name: data.get('name'),
+        //     address: data.get('address')
+        // });
 
     };
 
