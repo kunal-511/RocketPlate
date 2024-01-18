@@ -4,7 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
+import { Link, useNavigate } from "react-router-dom"
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -14,11 +14,12 @@ import { useState } from 'react';
 
 const Login = () => {
     const [credentials, setCredentials] = useState({ name: "", password: "" })
+    let navigate = useNavigate()
 
-    const handleSubmit = async(event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(JSON.stringify({email: credentials.email, password: credentials.password}))
-        const response = await fetch("http://localhost:3000/api/createuser", {
+        console.log(JSON.stringify({ email: credentials.email, password: credentials.password }))
+        const response = await fetch("http://localhost:3000/api/loginuser", {
             method: 'POST',
             headers: {
                 'Content-Type': "application/json"
@@ -32,15 +33,10 @@ const Login = () => {
         if (!json.success) {
             alert("Enter valid credentials")
         }
+        if (json.success) {
+            navigate("/")
+        }
 
-
-
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-       
     };
     const onChange = (event) => {
         setCredentials({ ...credentials, [event.target.name]: event.target.value })
@@ -107,7 +103,7 @@ const Login = () => {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="/createuser" variant="body2">
+                                <Link to="/createuser" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
