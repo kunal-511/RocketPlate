@@ -12,13 +12,16 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 // import AdbIcon from '@mui/icons-material/Adb';
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+
+
 
 const pages = ['Search', 'Offers', 'Help', 'LogIn', 'SignUp'];
-const endPoints = ['search', 'offers', 'help', 'login', 'createuser'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+// const endPoints = ['search', 'offers', 'help', 'login', 'createuser'];
+const settings = ['Profile', 'Account', 'Dashboard', 'Help'];
 
 const Navbar = () => {
+    const navigate = useNavigate()
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -36,6 +39,11 @@ const Navbar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+    const handleLogOut = () => {
+        localStorage.removeItem("token")
+        navigate("/login")
+    }
+
     return (
         <AppBar position="static" sx={{ backgroundColor: 'white', color: 'black' }}>
             <Container maxWidth="xl">
@@ -118,7 +126,7 @@ const Navbar = () => {
 
                     </Box>
                     <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: { xs: 'none', md: 'flex' } }}>
-                        {endPoints.map((page, index) => (
+                        {/* {endPoints.map((page, index) => (
                             <Link key={page} to={`/${endPoints[index]}`} style={{ textDecoration: 'none' }}>
                                 <Button
                                     onClick={handleCloseNavMenu}
@@ -127,14 +135,47 @@ const Navbar = () => {
                                     {pages[index]}
                                 </Button>
                             </Link>
-                        ))}
+                        ))} */}
+
+                        <Link><Button onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: 'black', display: 'block' }}>Search</Button></Link>
+                        <Link to="/offers"><Button onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: 'black', display: 'block' }}>Offers</Button></Link>
+
+
+
+                        {(localStorage.getItem("token")) ?
+                            <Link to="/orders"><Button onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: 'black', display: 'block' }}>My Orders</Button></Link>
+                            :
+                            ""
+
+                        }
+
+
+
+                        {(localStorage.getItem("token")) ?
+                            <div style={{ display: "flex" }}>
+                                <Link to="/cart"><Button onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: 'black', display: 'block' }}>My Cart</Button></Link>
+                                <Link ><Button onClick={handleLogOut}
+                                    sx={{ my: 2, color: 'black', display: 'block' }}>Log Out</Button></Link>
+                            </div>
+                            : <div style={{ display: "flex" }}>
+                                <Link to="/login" ><Button onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: 'black', display: 'block' }}>LogIn</Button></Link>
+                                <Link to="/createuser"><Button onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: 'black', display: 'block' }}>SignUp</Button></Link>
+                            </div>
+                        }
+
                     </Box>
 
 
 
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, marginX: 2 }}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                             </IconButton>
                         </Tooltip>

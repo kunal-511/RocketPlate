@@ -1,4 +1,5 @@
 import { useState } from "react"
+import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -9,26 +10,30 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import menuImg from "../assets/menu-img.jpg";
-const Cards = () => {
+//import menuImg from "../assets/menu-img.jpg";
+
+
+const Cards = (props) => {
     const [age, setAge] = useState('');
 
     const handleChange = (event) => {
         setAge(event.target.value);
     };
+    let options = props.options
+    let priceOptions = Object.keys(options)
     return (
 
         <div>
-            <Card sx={{ maxWidth: 480, marginTop: "2rem", minHeight: 300 }}>
-                <CardMedia sx={{ maxHeight: 300 }}
+            <Card sx={{ maxWidth: 480, marginTop: "2rem", }}>
+                <CardMedia sx={{ objectFit: "fill", height: 300 }}
                     component="img"
                     alt="default image"
                     height="140"
-                    image={menuImg}
+                    image={props.foodImg}
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        Card Title
+                        {props.foodName}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut earum repellat sed!
@@ -67,9 +72,11 @@ const Cards = () => {
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            <MenuItem value="half">Half</MenuItem>
-                            <MenuItem value="full">Full</MenuItem>
-
+                            {priceOptions.map((data) => (
+                                <MenuItem key={data} value={data}>
+                                    {data}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                     <Typography>Total Price</Typography>
@@ -81,3 +88,9 @@ const Cards = () => {
 }
 
 export default Cards;
+Cards.propTypes = {
+    foodName: PropTypes.string.isRequired,
+    foodImg: PropTypes.string,
+    options: PropTypes.any
+    // Add other prop types if there are additional props
+};

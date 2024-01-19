@@ -4,45 +4,46 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container'
+import Container from '@mui/material/Container';
 import { useState } from 'react';
 
 const Login = () => {
-    const [credentials, setCredentials] = useState({ name: "", password: "" })
-    let navigate = useNavigate()
+    const [credentials, setCredentials] = useState({ email: "", password: "" }); // Changed 'name' to 'email'
+    let navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(JSON.stringify({ email: credentials.email, password: credentials.password }))
+        console.log(JSON.stringify({ email: credentials.email, password: credentials.password }));
         const response = await fetch("http://localhost:3000/api/loginuser", {
             method: 'POST',
             headers: {
-                'Content-Type': "application/json"
+                'Content-Type': 'application/json'
             },
+            body: JSON.stringify({ email: credentials.email, password: credentials.password })
+        });
 
-            body: JSON.stringify({ name: credentials.name, email: credentials.email, password: credentials.password, location: credentials.geoLocation })
-        })
-        const json = await response.json()
+        const json = await response.json();
         console.log(json);
 
         if (!json.success) {
-            alert("Enter valid credentials")
+            alert("Enter valid credentials");
         }
         if (json.success) {
-            localStorage.setItem("token", json.authtoken)
-            console.log(localStorage.getItem("token"))
-            navigate("/")
+            localStorage.setItem("token", json.authtoken);
+            console.log(localStorage.getItem("token"));
+            navigate("/");
         }
-
     };
+
     const onChange = (event) => {
-        setCredentials({ ...credentials, [event.target.name]: event.target.value })
-    }
+        setCredentials({ ...credentials, [event.target.name]: event.target.value });
+    };
+
     return (
         <div>
             <Container component="main" maxWidth="xs">
@@ -114,7 +115,7 @@ const Login = () => {
                 </Box>
             </Container>
         </div>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;
