@@ -2,7 +2,9 @@ import * as express from "express";
 const router = express.Router();
 import User from "../models/User.js";
 import { body, validationResult } from "express-validator";
-
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+const jwtSecret = "qwertyuiop";
 router.post(
   "/createuser",
   body("email", "Email entered is incorrect").isEmail(),
@@ -14,10 +16,13 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
+    const salt = await bcrypt.genSalt(10);
+    let securePassword = await bcrypt.hash(req.body.password, salt);
+
     try {
       await User.create({
         name: req.body.name,
-        password: req.body.password,
+        password: securePassword,
         email: req.body.email,
         location: "Delhi",
       });
@@ -32,7 +37,7 @@ router.post(
 router.post(
   "/loginuser",
   body("email", "Email entered is incorrect").isEmail(),
-  body("password", "Password too weak").isLength({ min: 2 }),
+  body("password", "Password too weak").isLength({ min: 5 }),
   async (req, res) => {
     let email = req.body.email;
     const errors = validationResult(req);
@@ -47,10 +52,23 @@ router.post(
           .status(400)
           .json({ errors: "Try logging with correct cerdentails" });
       }
-      if (req.body.password !== userData.password) {
+
+      const passwordCompare = await bcrypt.compare(
+        req.body.password,
+        userData.password
+      );
+      if (!passwordCompare) {
         return res.json({ errors: "Try logging with correct credentials" });
       }
-      return res.json({ success: true });
+
+      const data = {
+        user: {
+          id: userData.id,
+        },
+      };
+      const authToken = jwt.sign(data, jwtSecret);
+
+      return res.json({ success: true, authToken: authToken });
     } catch (error) {
       console.error(error);
       res.json({ success: false });

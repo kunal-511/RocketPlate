@@ -19,6 +19,8 @@ const SignUp = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        const user = data.get('name')
         const response = await fetch("http://localhost:3000/api/createuser", {
             method: 'POST',
             headers: {
@@ -33,8 +35,11 @@ const SignUp = () => {
         if (!json.success) {
             alert("Enter valid credentials")
         }
+        if (json.success) {
+            alert(`${user} welcome to rocket plates`)
+        }
 
-        // const data = new FormData(event.currentTarget);
+
         // console.log({
         //     email: data.get('email'),
         //     password: data.get('password'),
