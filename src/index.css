@@ -27,3 +27,9 @@ html {
 .carousel-img {
   max-height: 1000px;
 }
+.foodCategory {
+  margin-top: 5rem;
+}
+.foodCard {
+  margin: 1rem;
+}
